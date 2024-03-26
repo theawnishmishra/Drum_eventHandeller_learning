@@ -1,47 +1,33 @@
-let numberOfDrumButtons = document.querySelectorAll('.drum').length;
+// Map each drum button to its corresponding sound file
+const drumSounds = {
+    'w': 'crash',
+    'a': 'kick-bass',
+    's': 'snare',
+    'd': 'tom-1',
+    'j': 'tom-2',
+    'k': 'tom-3',
+    'l': 'tom-4'
+};
 
-for (let i = 0; i < numberOfDrumButtons; i++) {
-    document.querySelectorAll('.drum')[i].addEventListener('click', function () {
-        let buttonInnerHTML = this.innerHTML;
-        makeSound(buttonInnerHTML);
-    });
-}
-
-document.addEventListener('keypress', function (event) {
-    makeSound(event.key);
-});
-
+// Function to play sound based on key/button press
 function makeSound(key) {
-    switch (key) {
-        case 'w':
-            let crash = new Audio('sounds/crash.mp3');
-            crash.play();
-            break;
-        case 'a':
-            let kickBass = new Audio('sounds/kick-bass.mp3');
-            kickBass.play();
-            break;
-        case 's':
-            let snare = new Audio('sounds/snare.mp3');
-            snare.play();
-            break;
-        case 'd':
-            let tom1 = new Audio('sounds/tom-1.mp3');
-            tom1.play();
-            break;
-        case 'j':
-            let tom2 = new Audio('sounds/tom-2.mp3');
-            tom2.play();
-            break;
-        case 'k':
-            let tom3 = new Audio('sounds/tom-3.mp3');
-            tom3.play();
-            break;
-        case 'l':
-            let tom4 = new Audio('sounds/tom-4.mp3');
-            tom4.play();
-            break;
-        default:
-            console.log(key);
+    const sound = drumSounds[key];
+    if (sound) {
+        const audio = new Audio(`sounds/${sound}.mp3`);
+        audio.play();
+    } else {
+        console.log(key); // Log key if no sound is mapped
     }
 }
+
+// Event listeners for drum buttons
+document.querySelectorAll('.drum').forEach(button => {
+    button.addEventListener('click', function () {
+        makeSound(this.innerHTML);
+    });
+});
+
+// Event listener for key presses
+document.addEventListener('keypress', function (event) {
+    makeSound(event.key.toLowerCase()); // Convert pressed key to lowercase
+});
